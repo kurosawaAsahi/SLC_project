@@ -11,7 +11,7 @@ audio file preparation(completed)
 
 ## a new pipeline for data filtering
 ### acoustic noise(how to filter background from the audio)
-detection of human speech by targeting a specific frequency range (300 Hz to 1500 Hz), isolating speech in complex audio data. [here](https://arxiv.org/html/2312.05815v1)
+detection of human speech by targeting a specific frequency range (300 Hz to 1500 Hz), isolating speech in complex audio data. paper ["Voice Activity Detection (VAD) in Noisy Environments"](https://arxiv.org/html/2312.05815v1)
 ### speech noise(Filler Word Detection)
  detecting and removing filler words such as "uh" and "um" from speech recordings. paper ["Filler Word Detection with Hard Category Mining and Inter-Category Focal Loss"](https://arxiv.org/pdf/2304.05922).
 - Use of **focal loss** to focus on difficult examples.
