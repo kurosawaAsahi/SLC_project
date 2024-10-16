@@ -10,4 +10,4 @@ a helpful implementation video, which can be found [here](https://www.youtube.co
 
 ## a new pipeline for data filtering
 ### acoustic noise(how to filter background from the audio)
-detection of human speech by targeting a specific frequency range (300 Hz to 1500 Hz), isolating speech in complex audio data. [here](https://arxiv.org/abs/2312.05815)
+detection of human speech by targeting a specific frequency range (300 Hz to 1500 Hz), isolating speech in complex audio data. [here](https://arxiv.org/html/2312.05815v1)
