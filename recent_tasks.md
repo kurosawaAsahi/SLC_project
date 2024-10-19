@@ -7,7 +7,9 @@ preparing the materials(completed)
 I initially attempted to use unitY but faced issues running it successfully. 
 I have now decided to revert to using Direct Speech-to-Speech Translation with Discrete Units for my project. 
 a helpful implementation video, which can be found [here](https://www.youtube.com/watch?v=HIAt9kawqsQ&list=PLvELbYeZ7GEFsYxurUXIXpmksCUz6-Z5M&index=6).<br>
-audio file preparation(completed)
+audio file preparation:ogg2wav,divide into test, train, dev(200000,25000,25000),disk quota exceed(wav much larger than ogg),the same pairs change to same file names<br>
+decode units from speech
+
 
 ## a new pipeline for data filtering
 ### acoustic noise(how to filter background from the audio)
@@ -17,6 +19,14 @@ detection of human speech by targeting a specific frequency range (300 Hz to 150
 - Use of **focal loss** to focus on difficult examples.
 - **Auxiliary categories** to separate confusing non-filler words.
 ### cope with mistranslation (original plan)
+### Summary of the Approach
+
+- **Speech Encoder**: The acoustic features \(X_s\) from speech are processed by a **speech encoder** to generate robust linguistic representations \(Z_s\), removing speaker traits, emotions, and noise. This process is defined as \(Z_s = F_{se}(X_s)\). The paper focuses on using mHuBERT and Whisper for speech encoding.
+
+- **Adaptor**: The **adaptor** serves as a bridge between the speech encoder and the **Large Language Model (LLM)**, aligning speech features \(Z_s\) with the LLM's embedding space. The transformation is represented by \(H_s = F_{ada}(Z_s)\), where a 3-layer multilayer perceptron (MLP) is used to project the speech features into the LLM's input realm.
+
+This structure enables smooth integration of speech data into a text-based LLM for various natural language tasks.
+
 
 
 
