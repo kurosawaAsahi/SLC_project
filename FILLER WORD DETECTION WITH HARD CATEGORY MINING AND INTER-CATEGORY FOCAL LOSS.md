@@ -13,3 +13,6 @@ Those who do not have professional training in speaking tend to use filler words
 - ASR-free methods are used to detect disfluencies, social signals, or other sound events (e.g., filler words, laughter, long silences, repetitions) without the use of ASR.
 - These methods detect multiple events simultaneously, requiring more complex designs and datasets with comprehensive labels.
 
+## A profound challenge
+Words like "a", "the", or "umbrella" often get misclassified as filler words such as "uh" or "um."Traditional methods lump these confusing words into an "unknown" category
+
