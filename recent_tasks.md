@@ -8,7 +8,7 @@ I initially attempted to use unitY but faced issues running it successfully.
 I have now decided to revert to using Direct Speech-to-Speech Translation with Discrete Units for my project. 
 a helpful implementation video, which can be found [here](https://www.youtube.com/watch?v=HIAt9kawqsQ&list=PLvELbYeZ7GEFsYxurUXIXpmksCUz6-Z5M&index=6).<br>
 audio file preparation:ogg2wav,divide into test, train, dev(200000,25000,25000),disk quota exceed(wav much larger than ogg),the same pairs change to same file names<br>
-decode units from speech
+decode units from speech（use 100 units from the sixth layer (--layer 6) of the HuBERT Base model）
 
 
 ## a new pipeline for data filtering
