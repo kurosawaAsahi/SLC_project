@@ -7,8 +7,16 @@ preparing the materials(completed)
 I initially attempted to use unitY but faced issues running it successfully. 
 I have now decided to revert to using Direct Speech-to-Speech Translation with Discrete Units for my project. 
 a helpful implementation video, which can be found [here](https://www.youtube.com/watch?v=HIAt9kawqsQ&list=PLvELbYeZ7GEFsYxurUXIXpmksCUz6-Z5M&index=6).<br>
+### data preparation
 audio file preparation:ogg2wav,divide into test, train, dev(200000,25000,25000),disk quota exceed(wav much larger than ogg),the same pairs change to same file names<br>
-decode units from speech（use 100 units from the sixth layer (--layer 6) of the HuBERT Base model）
+###  prepare target discrete units
+Quantize using a pretrained  K-means clustering model. <br>
+decode units from speech（use 100 units from the sixth layer (--layer 6) of the HuBERT Base model):HUBERT-BASE+KM100
+1. we have to prepare a separated_manifest_of_audio_files_to_quantize(a file with paths and length of input audio files)
+2. Quantize using the learned clusters( we use a pretrained HuBERT Base + KM100 model) (configuring the environment, ensuring compatibility with dependencies, and resolving issues with data processing takes time)
+### format the data
+
+   
 
 
 ## a new pipeline for data filtering
