@@ -9,12 +9,26 @@ I have now decided to revert to using Direct Speech-to-Speech Translation with D
 a helpful implementation video, which can be found [here](https://www.youtube.com/watch?v=HIAt9kawqsQ&list=PLvELbYeZ7GEFsYxurUXIXpmksCUz6-Z5M&index=6).<br>
 ### data preparation
 audio file preparation:ogg2wav,divide into test, train, dev(200000,25000,25000),disk quota exceed(wav much larger than ogg),the same pairs change to same file names<br>
+- **Sample Width**: 4 bytes (32-bit audio)
+- **Sample Rate**: 16000 Hz
+- **Duration**: 10 seconds
+- **Channels**: Mono
+- **Original Size**:  
+  \[
+  16000 \, \text{samples/second} \times 10 \, \text{seconds} \times 4 \, \text{bytes/sample} = 640,000 \, \text{bytes} \, (640 \, \text{KB})
+  \]
+To solve the quota problem: <br>
+When reading OGG files, set the sample_width to 2 (4 in original file), and then save them as WAV. The WAV file will be smaller, but the size should only be about half of the original. However, 1.4 million pairs still won't fit, so I ended up saving 250,000 pairs instead.( Lower audio quality could negatively impact the model's performance)
 ###  prepare target discrete units
 Quantize using a pretrained  K-means clustering model. <br>
 decode units from speech（use 100 units from the sixth layer (--layer 6) of the HuBERT Base model):HUBERT-BASE+KM100
 1. we have to prepare a separated_manifest_of_audio_files_to_quantize(a file with paths and length of input audio files)
 2. Quantize using the learned clusters( we use a pretrained HuBERT Base + KM100 model) (configuring the environment, ensuring compatibility with dependencies, and resolving issues with data processing takes time)
 ### format the data
+#### S2UT data
+(completed, to run the code I have to modify fairseq)
+#### Multitask data
+Actually this step is optional.Better performance
 
    
 
