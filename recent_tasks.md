@@ -8,17 +8,24 @@ I initially attempted to use unitY but faced issues running it successfully.
 I have now decided to revert to using Direct Speech-to-Speech Translation with Discrete Units for my project. 
 a helpful implementation video, which can be found [here](https://www.youtube.com/watch?v=HIAt9kawqsQ&list=PLvELbYeZ7GEFsYxurUXIXpmksCUz6-Z5M&index=6).<br>
 ### data preparation
-audio file preparation:ogg2wav,divide into test, train, dev(200000,25000,25000),disk quota exceed(wav much larger than ogg),the same pairs change to same file names<br>
+#### Audio Specifications:
 - **Sample Width**: 4 bytes (32-bit audio)
 - **Sample Rate**: 16000 Hz
 - **Duration**: 10 seconds
 - **Channels**: Mono
-- **Original Size**:  
-  \[
-  16000 \, \text{samples/second} \times 10 \, \text{seconds} \times 4 \, \text{bytes/sample} = 640,000 \, \text{bytes} \, (640 \, \text{KB})
-  \]
-To solve the quota problem: <br>
-When reading OGG files, set the sample_width to 2 (4 in original file), and then save them as WAV. The WAV file will be smaller, but the size should only be about half of the original. However, 1.4 million pairs still won't fit, so I ended up saving 250,000 pairs instead.( Lower audio quality could negatively impact the model's performance)
+#### Original WAV File Size Calculation:
+16000 samples/second × 10 seconds × 4 bytes/sample = 640,000 bytes (640 KB)
+#### Solution to Quota Problem:
+When reading OGG files, the `sample_width` is reduced to 2 (instead of 4 in the original file) and saved as WAV. This reduces the WAV file size by about half. However, even after this reduction, 1.4 million pairs still wouldn't fit within the quota, so I saved 250,000 pairs instead.
+**Note**: Lowering audio quality may negatively impact the model's performance.
+#### Audio File Preparation: OGG to WAV Conversion and Dataset Splitting
+- **Target Split**: 
+  - Training: 200,000 pairs
+  - Testing: 25,000 pairs
+  - Development: 25,000 pairs
+- **Disk Quota Issue**: 
+  - WAV files are significantly larger than OGG files, causing a disk quota exceedance. The same audio pairs are renamed to ensure consistency between the file names.
+
 ###  prepare target discrete units
 Quantize using a pretrained  K-means clustering model. <br>
 decode units from speech（use 100 units from the sixth layer (--layer 6) of the HuBERT Base model):HUBERT-BASE+KM100
@@ -29,8 +36,51 @@ decode units from speech（use 100 units from the sixth layer (--layer 6) of the
 (completed, to run the code I have to modify fairseq)
 #### Multitask data
 Actually this step is optional.Better performance
+### Training without mulititask
+100 discrete units as target:
+#### Model Architecture:
+- `--arch s2ut_transformer_fisher`: a Transformer-based architecture（pretrained on Fisher）
+- `--share-decoder-input-output-embed`: Shares weights between the decoder input embeddings and output embeddings, reducing model size.
+#### Training Hyperparameters:
+- `--label-smoothing 0.2`:prevent overfitting
+- `--dropout 0.1`: prevent overfitting
+- `--attention-dropout 0.1`: randomly setting 0.1 of attention weight to zero.
+- `--relu-dropout 0.1`: randomly setting 0.1 of the neurons' outputs after the ReLU activation to zero during training
+#### Learning Rate and Optimization:
+- `--lr 0.0005`: learning rate
+- `--lr-scheduler inverse_sqrt`:decreases the learning rate according to the square root of the update step after the warmup phase.
+- `--warmup-init-lr 1e-7`: initial learning rate during the warmup phase.
+- `--warmup-updates 10000`: The first 10,000 updates, the learning rate will start very small (1e-7) and gradually increase to the base learning rate (0.0005)
+- `--optimizer adam`: 
+- `--adam-betas "(0.9, 0.98)"`: momentum and variance for the moving averages of gradient updates.
+- `--clip-norm 10.0`:to prevent exploding gradients.
 
-   
+- **Number of GPUs**: 4 x RTX 2080
+- **Total Epochs**: 63
+  #### Validation Results on the Dev Set while training
+Unfortunately, forget to use tensorboard while training
+The table below summarizes the validation results from the dev set for the last three epochs:
+
+| Epoch | Loss  | NLL Loss | Perplexity (PPL) | Words per Second (WPS) | Words per Batch (WPB) | Batch Size (BSZ) | Number of Updates | Best Loss |
+|-------|-------|----------|------------------|------------------------|-----------------------|------------------|-------------------|-----------|
+| 61    | 3.882 | 2.682    | 6.42             | 87315.5                 | 4089.8                | 20.4             | 149,056            | 3.882     |
+| 62    | 3.881 | 2.681    | 6.41             | 88072.3                 | 4089.8                | 20.4             | 151,499            | 3.881     |
+| 63    | 3.879 | 2.676    | 6.39             | 86442.2                 | 4089.8                | 20.4             | 153,942            | 3.879     |
+### INFERENCE and EVALUATION
+with beam search (beam size = 10):
+#### BLEU Score
+- **BLEU4**: 8.64
+#### Detailed BLEU Components
+- **N-gram Precision**:
+  - **1-gram Precision**: 30.6% 
+  - **2-gram Precision**: 12.7% 
+  - **3-gram Precision**: 5.6% 
+  - **4-gram Precision**: 2.6%
+  - **Brevity Penalty**: 1.000
+    - **Ratio**: 1.690 – the generated output is 69% longer than the reference
+### Training without mulititask
+
+
 
 
 ## a new pipeline for data filtering
@@ -40,6 +90,8 @@ detection of human speech by targeting a specific frequency range (300 Hz to 150
  detecting and removing filler words such as "uh" and "um" from speech recordings. paper ["Filler Word Detection with Hard Category Mining and Inter-Category Focal Loss"](https://arxiv.org/pdf/2304.05922).
 - Use of **focal loss** to focus on difficult examples.
 - **Auxiliary categories** to separate confusing non-filler words.
+
+Maybe this one would be better: paper ["TRANSCRIPTION FREE FILLER WORD DETECTION WITH NEURAL SEMI-CRFS"](https://arxiv.org/pdf/2303.06475).
 ### cope with mistranslation (original plan)
 ### Summary of the Approach
 
