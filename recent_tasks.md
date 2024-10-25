@@ -78,7 +78,7 @@ with beam search (beam size = 10):
   - **4-gram Precision**: 2.6%
   - **Brevity Penalty**: 1.000
     - **Ratio**: 1.690 – the generated output is 69% longer than the reference
-### Training without mulititask
+### Training with mulititask
 
 
 
