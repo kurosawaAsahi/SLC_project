@@ -106,8 +106,8 @@ with beam search (beam size = 10):
 The training hyperparameters for this multi-task setup are kept consistent with non-multi-task configurations, with one exception: the learning rate. 
 While we initially set the learning rate to the recommended value of 0.0005, as per the reference paper, this caused frequent gradient explosion issues, leading to unstable training that could not be sustained
 To address this, the learning rate was reduced to **0.00001**.
-At the **90th epoch**, we increase the learning rate back to **0.0005** to speed up convergence. By this stage, the model has likely stabilized, and a higher learning rate can accelerate final convergence.
-**Number of GPUs**: 4 x RTX 2080
+At the **90th epoch**, we increase the learning rate back to **0.0005** to speed up convergence. By this stage, the model has likely stabilized, and a higher learning rate can accelerate final convergence.<br>
+**Number of GPUs**: 4 x RTX 2080<br>
 **Total Epochs**: 130
 
 
