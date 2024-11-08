@@ -109,6 +109,15 @@ To address this, the learning rate was reduced to **0.00001**.
 At the **90th epoch**, we increase the learning rate back to **0.0005** to speed up convergence. By this stage, the model has likely stabilized, and a higher learning rate can accelerate final convergence.<br>
 **Number of GPUs**: 4 x RTX 2080<br>
 **Total Epochs**: 130
+####
+Generate test with beam=10: BLEU4 = 12.20 (original: 8.64)
+- **N-gram Precision**:
+  - **1-gram Precision**: 36.3% (orignal: 30.6)
+  - **2-gram Precision**: 17.4% (orignal: 12.7)
+  - **3-gram Precision**: 8.4% (orignal: 5.4)
+  - **4-gram Precision**: 4.2%(orignal: 2.6)
+  - **Brevity Penalty**: 1.000
+    - **Ratio**: 1.690 – the generated output is 69% longer than the reference
 
 
 
