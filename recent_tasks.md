@@ -79,6 +79,31 @@ with beam search (beam size = 10):
   - **Brevity Penalty**: 1.000
     - **Ratio**: 1.690 – the generated output is 69% longer than the reference
 ### Training with mulititask
+#### multi-task data preparation
+1. **Transcription and Tokenization**:
+   - Using the Whisper model to transcribe audio files into text for both `source` and `target` tasks.
+   - Tokenize the transcribed text, splitting it into individual tokens (characters).
+
+2. **Word Frequency Calculation**:
+   - Calculate the frequency of each token in the transcriptions to generate a frequency dictionary, which is useful for balanced training.
+
+#### Multi-Task Learning Configuration
+1. **source_letter**
+   - **Decoder Type**: Transformer
+   - **Dictionary Path**: `${DATA_ROOT}/source_letter/dict.txt`
+   - **Data Path**: `${DATA_ROOT}/source_letter`
+   - **Encoder Layers**: 6
+   - **Loss Weight**: 8.0
+   The `source_letter` task is configured with a 6-layer encoder and utilizes a Transformer decoder. The dictionary（ store word frequencies）, a loss weight of 8.0.
+
+2. **target_letter**
+   - **Decoder Type**: Transformer
+   - **Dictionary Path**: `${DATA_ROOT}/target_letter/dict.txt`
+   - **Data Path**: `${DATA_ROOT}/target_letter`
+   - **Encoder Layers**: 8
+   - **Loss Weight**: 8.0
+
+
 
 
 
