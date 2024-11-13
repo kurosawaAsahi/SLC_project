@@ -118,6 +118,16 @@ Generate test with beam=10: BLEU4 = 12.20 (original: 8.64)
   - **4-gram Precision**: 4.2%(orignal: 2.6)
   - **Brevity Penalty**: 1.000
     - **Ratio**: 1.690 – the generated output is 69% longer than the reference
+    - 
+####  CoVoST 2 speech-to-text translation corpus. 
+source audio
+#### CVSS-C Database Download
+target audio <br>
+ All translation speeches in CVSS-C are in a single canonical speaker's voice. <br>
+ Despite being synthetic, these speeches are of very high naturalness and cleanness, with a consistent speaking style.
+#### prepare target discrete units
+
+
 
 
 
