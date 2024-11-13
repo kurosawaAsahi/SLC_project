@@ -120,9 +120,9 @@ Generate test with beam=10: BLEU4 = 12.20 (original: 8.64)
     - **Ratio**: 1.690 – the generated output is 69% longer than the reference
     - 
 ####  CoVoST 2 speech-to-text translation corpus. 
-source audio
+source audio (es)
 #### CVSS-C Database Download
-target audio <br>
+target audio (en) <br>
  All translation speeches in CVSS-C are in a single canonical speaker's voice. <br>
  Despite being synthetic, these speeches are of very high naturalness and cleanness, with a consistent speaking style.
 #### prepare target discrete units
